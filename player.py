@@ -1,5 +1,7 @@
 import pygame
 from constants import PLAYER_RADIUS
+from constants import PLAYER_TURN_SPEED
+from constants import PLAYER_SPEED
 import shaping
 
 
@@ -17,3 +19,28 @@ class Player(shaping.CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
+    
+    def rotate(self, dt: float) -> None:
+        self.rotation += (PLAYER_TURN_SPEED * dt)
+
+    def update(self, dt: float) -> None:
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_w]:
+            self.move(dt)
+
+        if keys[pygame.K_s]:
+            self.move(-dt)
+
+        if keys[pygame.K_a]:
+            self.rotate(-dt)
+
+        if keys[pygame.K_d]:
+            self.rotate(dt)
+
+    def move(self, dt: float) -> None:
+        unit_vector = pygame.Vector2(0, 1)
+        rotated_vector = unit_vector.rotate(self.rotation)
+        rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
+        self.position += rotated_with_speed_vector
+
