@@ -6,6 +6,7 @@ dist/
 wheels/
 *.egg-info
 game_state.jsonl
+.DS_Store
+game_events.jsonl
 # Virtual environments
 .venv
-.DS_Store

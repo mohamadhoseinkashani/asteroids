@@ -2,7 +2,10 @@ from constants import SCREEN_HEIGHT
 from constants import SCREEN_WIDTH
 from constants import PLAYER_RADIUS
 import pygame
+import sys
+from shaping import CircleShape
 from logger import log_state
+from logger import log_event
 import player
 import asteroid
 import asteroidsfield
@@ -43,13 +46,20 @@ def main():
                 return
                         
         screen.fill("black")
+        player_character.draw(screen)
+        
 
         updatable.update(dt)
         for item in drawable:
             item.draw(screen)
+            if item.collides_with(player_character):
+                if item == player_character:
+                    continue
+                log_event("player_hit")
+                print("Game Over")
+                sys.exit()
 
-        player_character.draw(screen)
-        player_character.update(dt)
+       
         pygame.display.flip()
         dt = clock.tick(60) / 1000
         
