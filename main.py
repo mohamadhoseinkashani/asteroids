@@ -9,7 +9,7 @@ from logger import log_event
 import player
 import asteroid
 import asteroidsfield
-
+import shot
 
 
 def main():
@@ -19,9 +19,12 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    player.Player.containers = (updatable, drawable)
-
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group() 
+    
+
+    player.Player.containers = (updatable, drawable)
+    shot.Shot.containers = (shots, drawable, updatable)
     asteroid.Asteroid.containers = (asteroids,updatable,drawable)
     asteroidsfields = pygame.sprite.Group()
     asteroidsfield.AsteroidField.containers = (updatable, )
@@ -55,9 +58,18 @@ def main():
             if item.collides_with(player_character):
                 if item == player_character:
                     continue
+                if isinstance(item, shot.Shot):
+                    continue
                 log_event("player_hit")
                 print("Game Over")
                 sys.exit()
+            for aster in asteroids:  
+                for bullet in shots:     
+                    if aster.collides_with(bullet):
+                        log_event("asteroid_shot")
+                        aster.split()  
+                        bullet.kill()   
+
 
        
         pygame.display.flip()
