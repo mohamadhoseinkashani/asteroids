@@ -17,8 +17,6 @@ Built as part of the [Boot.dev](https://www.boot.dev) OOP / "Build Asteroids usi
 | D / → | Rotate right |
 | Space | Shoot |
 
-*Confirm these match your `player.py` / `constants.py` — update the table if your controls differ.*
-
 Colliding with an asteroid ends the game.
 
 ## Running it locally
